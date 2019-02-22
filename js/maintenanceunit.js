@@ -18,12 +18,12 @@ $("#sp input").click(function () {
 
 
 // 加载详情页面部门下拉框
-$("#part01").combotree({
-        /**
+/*$("#part01").combotree({
+        /!**
          *
          *
          * url有可能需要更改
-         */
+         *!/
         url:manage_propertyUnit_getName_url,
         height:26,
         width:'70%',
@@ -35,11 +35,11 @@ $("#part01").combotree({
         }
 })
 $("#part02").combotree({
-    /**
+    /!**
      *
      *
      * url有可能需要更改
-     */
+     *!/
     url:manage_propertyUnit_getName_url,
     height:26,
     width:'250px',
@@ -52,11 +52,11 @@ $("#part02").combotree({
 })
 // 加载详情页面部门下拉框
 $("#edit_part01").combotree({
-    /**
+    /!**
      *
      *
      * url有可能需要更改
-     */
+     *!/
     url:manage_propertyUnit_getName_url,
     height:26,
     width:'70%',
@@ -66,16 +66,11 @@ $("#edit_part01").combotree({
         var text=n.text;
         $("#edit_part01").combotree('setValue',text);
     }
-})
+})*/
 obj={
         // 查询
         find:function () {
             var data = {}
-            /**
-             *
-             * 根据条件进行查询
-             *
-             */
             var companyname = $("#find_companyname").val();
             if (companyname !== "") {
                 data["companyname"] = companyname
@@ -92,16 +87,15 @@ obj={
             if (juridicalperson !== "") {
                 data["juridicalperson"] = juridicalperson
             }
+            var maintenanceunitaddress = $("#find_maintenanceunitaddress").val();
+            if (maintenanceunitaddress !== "") {
+                data["maintenanceunitaddress"] = maintenanceunitaddress
+            }
             // 加载表格
             $("#table").datagrid({
                 title:"数据列表",
                 iconCls:"icon-left02",
-                /**
-                 *
-                 * url需要修改
-                 *
-                 */
-                url:manage_propertyunit_gets_url,
+                url:manage_maintenanceunit_gets_url,
                 //加入查询条件
                 queryParams:data,
                 fitColumns:true,
@@ -119,11 +113,6 @@ obj={
                 sortOrder:'asc',
                 toolbar: '#tabelBut',
                 columns:[[
-                    /**
-                     *
-                     * 根据实际情况需要修改
-                     *
-                     */
                     {
                         checkbox:true,
                         field:'no',
@@ -153,7 +142,14 @@ obj={
                         title:'执照编码',
                         width:50,
                         align:'center'
-                    }, {
+                    },
+                    {
+                        field:'qualificertificatenumber',
+                        title:'资质编码',
+                        width:50,
+                        align:'center'
+                    },
+                    {
                         field:'juridicalperson',
                         title:'法人名称',
                         width:50,
@@ -163,6 +159,12 @@ obj={
                         field:'companyphone',
                         title:'公司电话',
                         width:50,
+                        align:'center'
+                    },
+                    {
+                        field:'maintenanceunitaddress',
+                        title:'维保点地址',
+                        width:100,
                         align:'center'
                     },
                     {
@@ -184,25 +186,21 @@ obj={
             $("#addBox").dialog({
                     closed: false
             });
-           /**
-            *
-            * 根据实际情况需要修改
-            *
-            */
            //将上次新增的内容置空
            $("#companyname").val("")
            $("#companyaddress").val("");
-           $("#companyphone").val("")
+           $("#maintenanceunitaddress").val("")
            $("#licensenumber").val("")
+           $("#qualificertificatenumber").val("");
+           $("#companyphone").val("");
            $("#juridicalperson").val("");
-           $("#juridicalpersonphone").val("");
-           $("#postablcode").val("");
-           $("#safetymanagementdepartment").val("");
-           $("#managementdepartmentperson").val("");
-           $("#principalphone").val("");
-           $("#operationstaffnumber").val("");
-           $("#operationstaff").val("");
-           $("#operationstaffphone").val("");
+           $("#resident").val("");
+           $("#maintenancemanager").val("");
+           $("#maintenancemanagerphone").val("");
+           $("#firstcontact").val("");
+           $("#firstcontactphone").val("");
+           $("#secondcontact").val("");
+           $("#secondcontactphone").val("");
         },
         // 编辑,需要先根据id查询
         edit:function (id) {
@@ -210,37 +208,29 @@ obj={
                 closed: false
             });
             $.ajax({
-                /**
-                 *
-                 * url需要修改
-                 *
-                 */
-                url:manage_propertyunit_get_url,
+                url:manage_maintenanceunit_get_url,
                 type:'post',
                 dataType:'json',
                 data:{id:id},
                 success:function (data) {
                     if (data.status === 1000) {
-                        /**
-                         *
-                         * 根据实际情况需要修改
-                         *
-                         */
                         //根据id查询的信息填充至编辑页面
                         $("#edit_id").val(id);
                         $("#edit_companyname").val(data.data.companyname);
                         $("#edit_companyaddress").val(data.data.companyaddress);
-                        $("#edit_postablcode").val(data.data.postablcode);
+                        $("#edit_maintenanceunitaddress").val(data.data.maintenanceunitaddress);
                         $("#edit_licensenumber").val(data.data.licensenumber);
-                        $("#edit_juridicalperson").val(data.data.juridicalperson);
-                        $("#edit_juridicalpersonphone").val(data.data.juridicalpersonphone);
+                        $("#edit_qualificertificatenumber").val(data.data.qualificertificatenumber);
                         $("#edit_companyphone").val(data.data.companyphone);
-                        $("#edit_safetymanagementdepartment").val(data.data.safetymanagementdepartment);
-                        $("#edit_managementdepartmentperson").val(data.data.managementdepartmentperson);
-                        $("#edit_principalphone").val(data.data.principalphone);
-                        $("#edit_operationstaffnumber").val(data.data.operationstaffnumber);
-                        $("#edit_operationstaff").val(data.data.operationstaff);
-                        $("#edit_operationstaffphone").val(data.data.operationstaffphone);
+                        $("#edit_juridicalperson").val(data.data.juridicalperson);
+
+                        $("#edit_resident").val(data.data.resident);
+                        $("#edit_maintenancemanager").val(data.data.maintenancemanager);
+                        $("#edit_maintenancemanagerphone").val(data.data.maintenancemanagerphone);
+                        $("#edit_firstcontact").val(data.data.firstcontact);
+                        $("#edit_firstcontactphone").val(data.data.firstcontactphone);
+                        $("#edit_secondcontact").val(data.data.secondcontact);
+                        $("#edit_secondcontactphone").val(data.data.secondcontactphone);
                     }
                     else{
                         }
@@ -249,11 +239,6 @@ obj={
         },
         add:function () {
                 var data = {}
-                /**
-                 *
-                 * 根据实际情况需要修改
-                 *
-                 */
                 //对于那些没有填写的数据项不需要传入后台
                 var companyname = $("#companyname").val()
                 if (companyname !== ""){
@@ -263,66 +248,60 @@ obj={
                 if (companyaddress !== ""){
                     data["companyaddress"] = companyaddress
                 }
-                var companyphone = $("#companyphone").val()
-                if (companyphone !== ""){
-                    data["companyphone"] = companyphone
+                var maintenanceunitaddress = $("#maintenanceunitaddress").val();
+                if (maintenanceunitaddress !== ""){
+                    data["maintenanceunitaddress"] = maintenanceunitaddress
                 }
                 var licensenumber = $("#licensenumber").val()
                 if (licensenumber !== ""){
                     data["licensenumber"] = licensenumber
                 }
+                var qualificertificatenumber = $("#qualificertificatenumber").val()
+                if (qualificertificatenumber !== ""){
+                    data["qualificertificatenumber"] = qualificertificatenumber
+                }
+                var companyphone = $("#companyphone").val()
+                if (companyphone !== ""){
+                    data["companyphone"] = companyphone
+                }
                 var juridicalperson = $("#juridicalperson").val();
                 if (juridicalperson !== ""){
                     data["juridicalperson"] = juridicalperson
                 }
-                var juridicalpersonphone = $("#juridicalpersonphone").val();
-                if (juridicalpersonphone !== ""){
-                    data["juridicalpersonphone"] = juridicalpersonphone
+                var resident = $("#resident").val();
+                if (resident !== ""){
+                    data["resident"] = resident
                 }
-                var postablcode = $("#postablcode").val();
-                if (postablcode !== ""){
-                    data["postablcode"] = postablcode
+                var maintenancemanager = $("#maintenancemanager").val();
+                if (maintenancemanager !== ""){
+                    data["maintenancemanager"] = maintenancemanager
                 }
-                var safetymanagementdepartment = $("#safetymanagementdepartment").val();
-                if (safetymanagementdepartment !== ""){
-                    data["safetymanagementdepartment"] = safetymanagementdepartment
+                var maintenancemanagerphone = $("#maintenancemanagerphone").val();
+                if (maintenancemanagerphone !== ""){
+                    data["maintenancemanagerphone"] = maintenancemanagerphone
                 }
-                var managementdepartmentperson = $("#managementdepartmentperson").val();
-                if (managementdepartmentperson !== ""){
-                    data["managementdepartmentperson"] = managementdepartmentperson
+                var firstcontact = $("#firstcontact").val();
+                if (firstcontact !== ""){
+                    data["firstcontact"] = firstcontact
                 }
-                var principalphone = $("#principalphone").val();
-                if (principalphone !== ""){
-                    data["principalphone"] = principalphone
+                var firstcontactphone = $("#firstcontactphone").val();
+                if (firstcontactphone !== ""){
+                    data["firstcontactphone"] = firstcontactphone
                 }
-                var operationstaffnumber = $("#operationstaffnumber").val();
-                if (operationstaffnumber !== ""){
-                    data["operationstaffnumber"] = operationstaffnumber
+                var secondcontact = $("#secondcontact").val();
+                if (secondcontact !== ""){
+                    data["secondcontact"] = secondcontact
                 }
-                var operationstaff = $("#operationstaff").val();
-                if (operationstaff !== ""){
-                    data["operationstaff"] = operationstaff
+                var secondcontactphone = $("#secondcontactphone").val();
+                if (secondcontactphone !== ""){
+                    data["secondcontactphone"] = secondcontactphone
                 }
-                var operationstaffphone = $("#operationstaffphone").val();
-                if (operationstaffphone !== ""){
-                    data["operationstaffphone"] = operationstaffphone
-                }
-            /**
-             *
-             * 产权单位四个字需要修改
-             *
-             */
-            $.messager.confirm('提示信息','是否添加产权单位信息',function (flg) {
+            $.messager.confirm('提示信息','是否维保单位单位信息',function (flg) {
                     if(flg){
                         $.ajax({
                             type:'post',
                             contentType:'application/json;charset=UTF-8',
-                            /**
-                             *
-                             * url需要修改
-                             *
-                             */
-                            url:manage_propertyunit_add_url,
+                            url:manage_maintenanceunit_add_url,
                             data:JSON.stringify(data),
                             success:function (data) {
                                 if(data.status === 1000){
@@ -334,23 +313,13 @@ obj={
                                     $("#table").datagrid('unselectAll');
                                     $.messager.show({
                                         title:'提示信息',
-                                        /**
-                                         *
-                                         * 产权单位需要修改
-                                         *
-                                         */
-                                        msg:"产权单位添加成功"
+                                        msg:"维保单位添加成功"
                                     })
                                 }
                                 else{
                                     $.messager.show({
                                         title:'警示信息',
-                                        /**
-                                         *
-                                         * 产权单位需要修改
-                                         *
-                                         */
-                                        msg:"产权单位添加失败"
+                                        msg:"维保单位添加失败"
                                     })
                                 }
                             }
@@ -363,12 +332,7 @@ obj={
             var data = {}
             var id = $("#edit_id").val()
             data["id"] = id
-            /**
-             *
-             * 根据实际情况修改
-             *
-             */
-            var companyname = $("#edit_companyname").val();
+            var companyname = $("#edit_companyname").val()
             if (companyname !== ""){
                 data["companyname"] = companyname
             }
@@ -376,66 +340,60 @@ obj={
             if (companyaddress !== ""){
                 data["companyaddress"] = companyaddress
             }
-            var postablcode = $("#edit_postablcode").val();
-            if (postablcode !== ""){
-                data["postablcode"] = postablcode
+            var maintenanceunitaddress = $("#edit_maintenanceunitaddress").val();
+            if (maintenanceunitaddress !== ""){
+                data["maintenanceunitaddress"] = maintenanceunitaddress
             }
-            var licensenumber = $("#edit_licensenumber").val();
+            var licensenumber = $("#edit_licensenumber").val()
             if (licensenumber !== ""){
                 data["licensenumber"] = licensenumber
+            }
+            var qualificertificatenumber = $("#edit_qualificertificatenumber").val()
+            if (qualificertificatenumber !== ""){
+                data["qualificertificatenumber"] = qualificertificatenumber
+            }
+            var companyphone = $("#edit_companyphone").val()
+            if (companyphone !== ""){
+                data["companyphone"] = companyphone
             }
             var juridicalperson = $("#edit_juridicalperson").val();
             if (juridicalperson !== ""){
                 data["juridicalperson"] = juridicalperson
             }
-            var juridicalpersonphone = $("#edit_juridicalpersonphone").val();
-            if (juridicalpersonphone !== ""){
-                data["juridicalpersonphone"] = juridicalpersonphone
+            var resident = $("#resident").val();
+            if (resident !== ""){
+                data["resident"] = resident
             }
-            var companyphone = $("#edit_companyphone").val();
-            if (companyphone !== ""){
-                data["companyphone"] = companyphone
+            var maintenancemanager = $("#edit_maintenancemanager").val();
+            if (maintenancemanager !== ""){
+                data["maintenancemanager"] = maintenancemanager
             }
-            var safetymanagementdepartment = $("#edit_safetymanagementdepartment").val();
-            if (safetymanagementdepartment !== ""){
-                data["safetymanagementdepartment"] = safetymanagementdepartment
+            var maintenancemanagerphone = $("#edit_maintenancemanagerphone").val();
+            if (maintenancemanagerphone !== ""){
+                data["maintenancemanagerphone"] = maintenancemanagerphone
             }
-            var managementdepartmentperson = $("#edit_managementdepartmentperson").val();
-            if (managementdepartmentperson !== ""){
-                data["managementdepartmentperson"] = managementdepartmentperson
+            var firstcontact = $("#edit_firstcontact").val();
+            if (firstcontact !== ""){
+                data["firstcontact"] = firstcontact
             }
-            var principalphone = $("#edit_principalphone").val();
-            if (principalphone !== ""){
-                data["principalphone"] = principalphone
+            var firstcontactphone = $("#edit_firstcontactphone").val();
+            if (firstcontactphone !== ""){
+                data["firstcontactphone"] = firstcontactphone
             }
-            var operationstaffnumber = $("#edit_operationstaffnumber").val();
-            if (operationstaffnumber !== ""){
-                data["operationstaffnumber"] = operationstaffnumber
+            var secondcontact = $("#edit_secondcontact").val();
+            if (secondcontact !== ""){
+                data["secondcontact"] = secondcontact
             }
-            var operationstaff = $("#edit_operationstaff").val();
-            if (operationstaff !== ""){
-                data["operationstaff"] = operationstaff
+            var secondcontactphone = $("#edit_secondcontactphone").val();
+            if (secondcontactphone !== ""){
+                data["secondcontactphone"] = secondcontactphone
             }
-            var operationstaffphone = $("#edit_operationstaffphone").val();
-            if (operationstaffphone !== ""){
-                data["operationstaffphone"] = operationstaffphone
-            }
-            /**
-             *
-             * 产权单位需要修改
-             *
-             */
-            $.messager.confirm('提示信息','是否更新产权单位信息',function (flg) {
+            $.messager.confirm('提示信息','是否更新维保单位信息',function (flg) {
                 if(flg){
                     $.ajax({
                         type:'post',
                         contentType:'application/json;charset=UTF-8',
-                        /**
-                         *
-                         * url需要修改
-                         *
-                         */
-                        url:manage_propertyunit_update_url,
+                        url:manage_maintenanceunit_update_url,
                         data:JSON.stringify(data),
                         success:function (data) {
                             if(data.status === 1000){
@@ -447,23 +405,13 @@ obj={
                                 $("#table").datagrid('unselectAll');
                                 $.messager.show({
                                     title:'提示信息',
-                                    /**
-                                     *
-                                     * 产权单位需要修改
-                                     *
-                                     */
-                                    msg:"产权单位更新成功"
+                                    msg:"维保单位更新成功"
                                 })
                             }
                             else{
                                 $.messager.show({
                                     title:'警示信息',
-                                    /**
-                                     *
-                                     * 产权单位需要修改
-                                     *
-                                     */
-                                    msg:"产权单位更新失败"
+                                    msg:"维保单位更新失败"
                                 })
                             }
                         }
@@ -484,12 +432,7 @@ obj={
                                        var num=ids.length;
                                       $.ajax({
                                               type:'post',
-                                              /**
-                                               *
-                                               * url需要修改
-                                               *
-                                               */
-                                              url:manage_propertyunit_del_url,
+                                              url:manage_maintenanceunit_del_url,
                                               data:{
                                                       ids:ids.join(',')
                                               },
@@ -503,23 +446,13 @@ obj={
                                                               $("#table").datagrid('unselectAll');
                                                               $.messager.show({
                                                                       title:'提示',
-                                                                      /**
-                                                                       *
-                                                                       * 产权单位需要修改
-                                                                       *
-                                                                       */
-                                                                      msg:num+'座产权单位被删除'
+                                                                      msg:num+'座维保单位被删除'
                                                               })
                                                       }
                                                       else{
                                                               $.messager.show({
                                                                       title:'警示信息',
-                                                                      /**
-                                                                       *
-                                                                       * 产权单位需要修改
-                                                                       *
-                                                                       */
-                                                                      msg:"产权单位删除失败"
+                                                                      msg:"维保单位删除失败"
                                                               })
                                                       }
                                               }
@@ -537,12 +470,7 @@ obj={
                         if(flg){
                                 $.ajax({
                                         type:'post',
-                                        /**
-                                         *
-                                         * url需要修改
-                                         *
-                                         */
-                                        url:manage_propertyunit_del_url,
+                                        url:manage_maintenanceunit_del_url,
                                         data:{
                                                 ids:id
                                         },
@@ -556,23 +484,13 @@ obj={
                                                         $("#table").datagrid("unselectRow");
                                                         $.messager.show({
                                                                 title:'提示信息',
-                                                                /**
-                                                                 *
-                                                                 * 产权单位需要修改
-                                                                 *
-                                                                 */
-                                                                msg:"产权单位删除成功"
+                                                                msg:"维保单位删除成功"
                                                         })
                                                 }
                                                 else{
                                                         $.messager.show({
                                                                 title:'警示信息',
-                                                                /**
-                                                                 *
-                                                                 * 产权单位需要修改
-                                                                 *
-                                                                 */
-                                                                msg:"产权单位删除失败"
+                                                                msg:"维保单位删除失败"
                                                         })
                                                 }
                                         }
@@ -585,12 +503,7 @@ obj={
 $("#table").datagrid({
         title:"数据列表",
         iconCls:"icon-left02",
-        /**
-         *
-         * url需要修改，注意get是有s的
-         *
-         */
-        url:manage_propertyunit_gets_url,
+        url:manage_maintenanceunit_gets_url,
         fitColumns:true,
         striped:true,
         pagination:true,
@@ -605,95 +518,88 @@ $("#table").datagrid({
         checkOnSelect:false,
         sortOrder:'asc',
         toolbar: '#tabelBut',
-        columns:[[
-                {
-                        checkbox:true,
-                        field:'no',
-                        width:100,
-                        align:'center'
-                },
-                {
-                        field:'id',
-                        title:'编号',
-                        width:20,
-                        align:'center'
-                },
-                {
-                        field:'companyname',
-                        title:'公司名称',
-                        width:100,
-                        align:'center'
-                },
-                {
-                        field:'companyaddress',
-                        title:'公司地址',
-                        width:100,
-                        align:'center'
-                },
-                {
-                        field:'licensenumber',
-                        title:'执照编码',
-                        width:50,
-                        align:'center'
-                }, {
-                        field:'juridicalperson',
-                        title:'法人名称',
-                        width:50,
-                        align:'center'
-                },
-                {
-                    field:'companyphone',
-                    title:'公司电话',
-                    width:50,
-                    align:'center'
-                },
-                {
-                        field:"opr",
-                        title:'操作',
-                        width:80,
-                        align:'center',
-                        formatter:function (val,row) {
-                                e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
-                                d = '<a  id="add" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
-                                return e+d;
-                        }
-                }
-        ]]
+    columns:[[
+        {
+            checkbox:true,
+            field:'no',
+            width:100,
+            align:'center'
+        },
+        {
+            field:'id',
+            title:'编号',
+            width:20,
+            align:'center'
+        },
+        {
+            field:'companyname',
+            title:'公司名称',
+            width:100,
+            align:'center'
+        },
+        {
+            field:'companyaddress',
+            title:'公司地址',
+            width:100,
+            align:'center'
+        },
+        {
+            field:'licensenumber',
+            title:'执照编码',
+            width:50,
+            align:'center'
+        },
+        {
+            field:'qualificertificatenumber',
+            title:'资质编码',
+            width:50,
+            align:'center'
+        },
+        {
+            field:'juridicalperson',
+            title:'法人名称',
+            width:50,
+            align:'center'
+        },
+        {
+            field:'companyphone',
+            title:'公司电话',
+            width:50,
+            align:'center'
+        },
+        {
+            field:'maintenanceunitaddress',
+            title:'维保点地址',
+            width:100,
+            align:'center'
+        },
+        {
+            field:"opr",
+            title:'操作',
+            width:80,
+            align:'center',
+            formatter:function (val,row) {
+                e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
+                d = '<a  id="add" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
+                return e+d;
+            }
+        }
+    ]]
 })
 // 弹出框加载
 $("#addBox").dialog({
-        /**
-         *
-         * 产权单位需要修改
-         *
-         */
-        title:"新增产权单位",
+        title:"新增维保单位",
         width:500,
-        /**
-         *
-         * height高度需要修改
-         *
-         */
-        height:300,
+        height:800,
         closed: true,
         modal:true,
         shadow:true
 })
 // 弹出框加载
 $("#editBox").dialog({
-    /**
-     *
-     * 产权单位需要修改
-     *
-     */
-    title:"编辑产权单位",
+    title:"编辑维保单位",
     width:500,
-    /**
-     *
-     * height高度需要修改
-     *
-     */
-    height:300,
+    height:800,
     closed: true,
     modal:true,
     shadow:true

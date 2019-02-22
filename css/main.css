@@ -521,6 +521,11 @@ float: left;
     cursor: pointer;
     color: #ff1f1a;
 }
+.operA02{
+    margin-right: 15px;
+    cursor: pointer;
+    color: #0000FF;
+}
 .addBox{
     display: none;
 }

@@ -18,13 +18,8 @@ $("#sp input").click(function () {
 
 
 // 加载详情页面部门下拉框
-$("#part01").combotree({
-        /**
-         *
-         *
-         * url有可能需要更改
-         */
-        url:manage_propertyUnit_getName_url,
+/*$("#part01").combotree({
+        url:manage_productionunit_getName_url,
         height:26,
         width:'70%',
         onSelect:function () {
@@ -35,12 +30,12 @@ $("#part01").combotree({
         }
 })
 $("#part02").combotree({
-    /**
+    /!**
      *
      *
      * url有可能需要更改
-     */
-    url:manage_propertyUnit_getName_url,
+     *!/
+    url:manage_productionunit_getName_url,
     height:26,
     width:'250px',
     onSelect:function () {
@@ -49,14 +44,14 @@ $("#part02").combotree({
         var text=n.text;
         $("#part02").combotree('setValue',text);
     }
-})
+})*/
 // 加载详情页面部门下拉框
-$("#edit_part01").combotree({
-    /**
+/*$("#edit_part01").combotree({
+    /!**
      *
      *
      * url有可能需要更改
-     */
+     *!/
     url:manage_propertyUnit_getName_url,
     height:26,
     width:'70%',
@@ -66,7 +61,7 @@ $("#edit_part01").combotree({
         var text=n.text;
         $("#edit_part01").combotree('setValue',text);
     }
-})
+})*/
 obj={
         // 查询
         find:function () {
@@ -76,13 +71,13 @@ obj={
              * 根据条件进行查询
              *
              */
-            var companyname = $("#find_companyname").val();
-            if (companyname !== "") {
-                data["companyname"] = companyname
+            var manufacturername = $("#find_manufacturername").val();
+            if (manufacturername !== "") {
+                data["manufacturername"] = manufacturername
             }
-            var companyaddress = $("#find_companyaddress").val();
-            if (companyaddress !== "") {
-                data["companyaddress"] = companyaddress
+            var manufactureraddress = $("#find_manufactureraddress").val();
+            if (manufactureraddress !== "") {
+                data["manufactureraddress"] = manufactureraddress
             }
             var licensenumber = $("#find_licensenumber").val();
             if (licensenumber !== "") {
@@ -96,12 +91,7 @@ obj={
             $("#table").datagrid({
                 title:"数据列表",
                 iconCls:"icon-left02",
-                /**
-                 *
-                 * url需要修改
-                 *
-                 */
-                url:manage_propertyunit_gets_url,
+                url:manage_productionunit_gets_url,
                 //加入查询条件
                 queryParams:data,
                 fitColumns:true,
@@ -119,11 +109,6 @@ obj={
                 sortOrder:'asc',
                 toolbar: '#tabelBut',
                 columns:[[
-                    /**
-                     *
-                     * 根据实际情况需要修改
-                     *
-                     */
                     {
                         checkbox:true,
                         field:'no',
@@ -137,14 +122,14 @@ obj={
                         align:'center'
                     },
                     {
-                        field:'companyname',
-                        title:'公司名称',
+                        field:'manufacturername',
+                        title:'厂家名称',
                         width:100,
                         align:'center'
                     },
                     {
-                        field:'companyaddress',
-                        title:'公司地址',
+                        field:'manufactureraddress',
+                        title:'厂家地址',
                         width:100,
                         align:'center'
                     },
@@ -153,15 +138,21 @@ obj={
                         title:'执照编码',
                         width:50,
                         align:'center'
-                    }, {
+                    },
+                    {
+                        field:'qualificertificatenumber',
+                        title:'资质编码',
+                        width:50,
+                        align:'center'
+                    },{
                         field:'juridicalperson',
                         title:'法人名称',
                         width:50,
                         align:'center'
                     },
                     {
-                        field:'companyphone',
-                        title:'公司电话',
+                        field:'manufacturerphone',
+                        title:'厂家电话',
                         width:50,
                         align:'center'
                     },
@@ -173,7 +164,8 @@ obj={
                         formatter:function (val,row) {
                             e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
                             d = '<a  id="add" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
-                            return e+d;
+                            c = '<a  id="jump" onclick="obj.jump(\'' + row.id + '\', \'' + row.manufacturername + '\')">品牌列表</a> ';
+                            return e+d+c;
                         }
                     }
                 ]]
@@ -184,25 +176,14 @@ obj={
             $("#addBox").dialog({
                     closed: false
             });
-           /**
-            *
-            * 根据实际情况需要修改
-            *
-            */
-           //将上次新增的内容置空
-           $("#companyname").val("")
-           $("#companyaddress").val("");
-           $("#companyphone").val("")
-           $("#licensenumber").val("")
+            //将上次新增的内容置空
+           $("#manufacturername").val("");
+           $("#manufactureraddress").val("")
+           $("#manufacturerphone").val("")
+           $("#licensenumber").val("");
+           $("#qualificertificatenumber").val("");
            $("#juridicalperson").val("");
            $("#juridicalpersonphone").val("");
-           $("#postablcode").val("");
-           $("#safetymanagementdepartment").val("");
-           $("#managementdepartmentperson").val("");
-           $("#principalphone").val("");
-           $("#operationstaffnumber").val("");
-           $("#operationstaff").val("");
-           $("#operationstaffphone").val("");
         },
         // 编辑,需要先根据id查询
         edit:function (id) {
@@ -210,66 +191,54 @@ obj={
                 closed: false
             });
             $.ajax({
-                /**
-                 *
-                 * url需要修改
-                 *
-                 */
-                url:manage_propertyunit_get_url,
+                url:manage_productionunit_get_url,
                 type:'post',
                 dataType:'json',
                 data:{id:id},
                 success:function (data) {
                     if (data.status === 1000) {
-                        /**
-                         *
-                         * 根据实际情况需要修改
-                         *
-                         */
                         //根据id查询的信息填充至编辑页面
                         $("#edit_id").val(id);
-                        $("#edit_companyname").val(data.data.companyname);
-                        $("#edit_companyaddress").val(data.data.companyaddress);
-                        $("#edit_postablcode").val(data.data.postablcode);
+                        $("#edit_manufacturername").val(data.data.manufacturername);
+                        $("#edit_manufactureraddress").val(data.data.manufactureraddress);
+                        $("#edit_manufacturerphone").val(data.data.manufacturerphone);
                         $("#edit_licensenumber").val(data.data.licensenumber);
+                        $("#edit_qualificertificatenumber").val(data.data.qualificertificatenumber);
                         $("#edit_juridicalperson").val(data.data.juridicalperson);
                         $("#edit_juridicalpersonphone").val(data.data.juridicalpersonphone);
-                        $("#edit_companyphone").val(data.data.companyphone);
-                        $("#edit_safetymanagementdepartment").val(data.data.safetymanagementdepartment);
-                        $("#edit_managementdepartmentperson").val(data.data.managementdepartmentperson);
-                        $("#edit_principalphone").val(data.data.principalphone);
-                        $("#edit_operationstaffnumber").val(data.data.operationstaffnumber);
-                        $("#edit_operationstaff").val(data.data.operationstaff);
-                        $("#edit_operationstaffphone").val(data.data.operationstaffphone);
                     }
                     else{
                         }
                 }
             })
         },
+        jump:function (id,manufacturername) {
+            // alert(id);
+            // alert(manufacturername);
+            window.location.href = "/lift/manusubbra.html?id="+id+"&manufacturername="+manufacturername
+        },
         add:function () {
                 var data = {}
-                /**
-                 *
-                 * 根据实际情况需要修改
-                 *
-                 */
                 //对于那些没有填写的数据项不需要传入后台
-                var companyname = $("#companyname").val()
-                if (companyname !== ""){
-                    data["companyname"] = companyname
+                var manufacturername = $("#manufacturername").val()
+                if (manufacturername !== ""){
+                    data["manufacturername"] = manufacturername
                 }
-                var companyaddress = $("#companyaddress").val();
-                if (companyaddress !== ""){
-                    data["companyaddress"] = companyaddress
+                var manufactureraddress = $("#manufactureraddress").val();
+                if (manufactureraddress !== ""){
+                    data["manufactureraddress"] = manufactureraddress
                 }
-                var companyphone = $("#companyphone").val()
-                if (companyphone !== ""){
-                    data["companyphone"] = companyphone
+                var manufacturerphone = $("#manufacturerphone").val()
+                if (manufacturerphone !== ""){
+                    data["manufacturerphone"] = manufacturerphone
                 }
                 var licensenumber = $("#licensenumber").val()
                 if (licensenumber !== ""){
                     data["licensenumber"] = licensenumber
+                }
+                var qualificertificatenumber = $("#qualificertificatenumber").val();
+                if (qualificertificatenumber !== ""){
+                    data["qualificertificatenumber"] = qualificertificatenumber
                 }
                 var juridicalperson = $("#juridicalperson").val();
                 if (juridicalperson !== ""){
@@ -279,50 +248,12 @@ obj={
                 if (juridicalpersonphone !== ""){
                     data["juridicalpersonphone"] = juridicalpersonphone
                 }
-                var postablcode = $("#postablcode").val();
-                if (postablcode !== ""){
-                    data["postablcode"] = postablcode
-                }
-                var safetymanagementdepartment = $("#safetymanagementdepartment").val();
-                if (safetymanagementdepartment !== ""){
-                    data["safetymanagementdepartment"] = safetymanagementdepartment
-                }
-                var managementdepartmentperson = $("#managementdepartmentperson").val();
-                if (managementdepartmentperson !== ""){
-                    data["managementdepartmentperson"] = managementdepartmentperson
-                }
-                var principalphone = $("#principalphone").val();
-                if (principalphone !== ""){
-                    data["principalphone"] = principalphone
-                }
-                var operationstaffnumber = $("#operationstaffnumber").val();
-                if (operationstaffnumber !== ""){
-                    data["operationstaffnumber"] = operationstaffnumber
-                }
-                var operationstaff = $("#operationstaff").val();
-                if (operationstaff !== ""){
-                    data["operationstaff"] = operationstaff
-                }
-                var operationstaffphone = $("#operationstaffphone").val();
-                if (operationstaffphone !== ""){
-                    data["operationstaffphone"] = operationstaffphone
-                }
-            /**
-             *
-             * 产权单位四个字需要修改
-             *
-             */
-            $.messager.confirm('提示信息','是否添加产权单位信息',function (flg) {
+            $.messager.confirm('提示信息','是否添加生产厂家信息',function (flg) {
                     if(flg){
                         $.ajax({
                             type:'post',
                             contentType:'application/json;charset=UTF-8',
-                            /**
-                             *
-                             * url需要修改
-                             *
-                             */
-                            url:manage_propertyunit_add_url,
+                            url:manage_productionunit_add_url,
                             data:JSON.stringify(data),
                             success:function (data) {
                                 if(data.status === 1000){
@@ -334,23 +265,13 @@ obj={
                                     $("#table").datagrid('unselectAll');
                                     $.messager.show({
                                         title:'提示信息',
-                                        /**
-                                         *
-                                         * 产权单位需要修改
-                                         *
-                                         */
-                                        msg:"产权单位添加成功"
+                                        msg:"生产厂家添加成功"
                                     })
                                 }
                                 else{
                                     $.messager.show({
                                         title:'警示信息',
-                                        /**
-                                         *
-                                         * 产权单位需要修改
-                                         *
-                                         */
-                                        msg:"产权单位添加失败"
+                                        msg:"生产厂家添加失败"
                                     })
                                 }
                             }
@@ -363,26 +284,25 @@ obj={
             var data = {}
             var id = $("#edit_id").val()
             data["id"] = id
-            /**
-             *
-             * 根据实际情况修改
-             *
-             */
-            var companyname = $("#edit_companyname").val();
-            if (companyname !== ""){
-                data["companyname"] = companyname
+            var manufacturername = $("#edit_manufacturername").val();
+            if (manufacturername !== ""){
+                data["manufacturername"] = manufacturername
             }
-            var companyaddress = $("#edit_companyaddress").val();
-            if (companyaddress !== ""){
-                data["companyaddress"] = companyaddress
+            var manufactureraddress = $("#edit_manufactureraddress").val();
+            if (manufactureraddress !== ""){
+                data["manufactureraddress"] = manufactureraddress
             }
-            var postablcode = $("#edit_postablcode").val();
-            if (postablcode !== ""){
-                data["postablcode"] = postablcode
+            var manufacturerphone = $("#edit_manufacturerphone").val();
+            if (manufacturerphone !== ""){
+                data["manufacturerphone"] = manufacturerphone
             }
             var licensenumber = $("#edit_licensenumber").val();
             if (licensenumber !== ""){
                 data["licensenumber"] = licensenumber
+            }
+            var qualificertificatenumber = $("#edit_qualificertificatenumber").val();
+            if (qualificertificatenumber !== ""){
+                data["qualificertificatenumber"] = qualificertificatenumber
             }
             var juridicalperson = $("#edit_juridicalperson").val();
             if (juridicalperson !== ""){
@@ -392,50 +312,13 @@ obj={
             if (juridicalpersonphone !== ""){
                 data["juridicalpersonphone"] = juridicalpersonphone
             }
-            var companyphone = $("#edit_companyphone").val();
-            if (companyphone !== ""){
-                data["companyphone"] = companyphone
-            }
-            var safetymanagementdepartment = $("#edit_safetymanagementdepartment").val();
-            if (safetymanagementdepartment !== ""){
-                data["safetymanagementdepartment"] = safetymanagementdepartment
-            }
-            var managementdepartmentperson = $("#edit_managementdepartmentperson").val();
-            if (managementdepartmentperson !== ""){
-                data["managementdepartmentperson"] = managementdepartmentperson
-            }
-            var principalphone = $("#edit_principalphone").val();
-            if (principalphone !== ""){
-                data["principalphone"] = principalphone
-            }
-            var operationstaffnumber = $("#edit_operationstaffnumber").val();
-            if (operationstaffnumber !== ""){
-                data["operationstaffnumber"] = operationstaffnumber
-            }
-            var operationstaff = $("#edit_operationstaff").val();
-            if (operationstaff !== ""){
-                data["operationstaff"] = operationstaff
-            }
-            var operationstaffphone = $("#edit_operationstaffphone").val();
-            if (operationstaffphone !== ""){
-                data["operationstaffphone"] = operationstaffphone
-            }
-            /**
-             *
-             * 产权单位需要修改
-             *
-             */
-            $.messager.confirm('提示信息','是否更新产权单位信息',function (flg) {
+
+            $.messager.confirm('提示信息','是否更新生产厂家信息',function (flg) {
                 if(flg){
                     $.ajax({
                         type:'post',
                         contentType:'application/json;charset=UTF-8',
-                        /**
-                         *
-                         * url需要修改
-                         *
-                         */
-                        url:manage_propertyunit_update_url,
+                        url:manage_productionunit_update_url,
                         data:JSON.stringify(data),
                         success:function (data) {
                             if(data.status === 1000){
@@ -447,23 +330,13 @@ obj={
                                 $("#table").datagrid('unselectAll');
                                 $.messager.show({
                                     title:'提示信息',
-                                    /**
-                                     *
-                                     * 产权单位需要修改
-                                     *
-                                     */
-                                    msg:"产权单位更新成功"
+                                    msg:"生产厂家更新成功"
                                 })
                             }
                             else{
                                 $.messager.show({
                                     title:'警示信息',
-                                    /**
-                                     *
-                                     * 产权单位需要修改
-                                     *
-                                     */
-                                    msg:"产权单位更新失败"
+                                    msg:"生产厂家更新失败"
                                 })
                             }
                         }
@@ -484,12 +357,7 @@ obj={
                                        var num=ids.length;
                                       $.ajax({
                                               type:'post',
-                                              /**
-                                               *
-                                               * url需要修改
-                                               *
-                                               */
-                                              url:manage_propertyunit_del_url,
+                                              url:manage_productionunit_del_url,
                                               data:{
                                                       ids:ids.join(',')
                                               },
@@ -503,23 +371,13 @@ obj={
                                                               $("#table").datagrid('unselectAll');
                                                               $.messager.show({
                                                                       title:'提示',
-                                                                      /**
-                                                                       *
-                                                                       * 产权单位需要修改
-                                                                       *
-                                                                       */
-                                                                      msg:num+'座产权单位被删除'
+                                                                      msg:num+'座生产厂家被删除'
                                                               })
                                                       }
                                                       else{
                                                               $.messager.show({
                                                                       title:'警示信息',
-                                                                      /**
-                                                                       *
-                                                                       * 产权单位需要修改
-                                                                       *
-                                                                       */
-                                                                      msg:"产权单位删除失败"
+                                                                      msg:"生产厂家删除失败"
                                                               })
                                                       }
                                               }
@@ -537,12 +395,7 @@ obj={
                         if(flg){
                                 $.ajax({
                                         type:'post',
-                                        /**
-                                         *
-                                         * url需要修改
-                                         *
-                                         */
-                                        url:manage_propertyunit_del_url,
+                                        url:manage_productionunit_del_url,
                                         data:{
                                                 ids:id
                                         },
@@ -556,23 +409,13 @@ obj={
                                                         $("#table").datagrid("unselectRow");
                                                         $.messager.show({
                                                                 title:'提示信息',
-                                                                /**
-                                                                 *
-                                                                 * 产权单位需要修改
-                                                                 *
-                                                                 */
-                                                                msg:"产权单位删除成功"
+                                                                msg:"生产厂家删除成功"
                                                         })
                                                 }
                                                 else{
                                                         $.messager.show({
                                                                 title:'警示信息',
-                                                                /**
-                                                                 *
-                                                                 * 产权单位需要修改
-                                                                 *
-                                                                 */
-                                                                msg:"产权单位删除失败"
+                                                                msg:"生产厂家删除失败"
                                                         })
                                                 }
                                         }
@@ -585,12 +428,7 @@ obj={
 $("#table").datagrid({
         title:"数据列表",
         iconCls:"icon-left02",
-        /**
-         *
-         * url需要修改，注意get是有s的
-         *
-         */
-        url:manage_propertyunit_gets_url,
+        url:manage_productionunit_gets_url,
         fitColumns:true,
         striped:true,
         pagination:true,
@@ -605,75 +443,74 @@ $("#table").datagrid({
         checkOnSelect:false,
         sortOrder:'asc',
         toolbar: '#tabelBut',
-        columns:[[
-                {
-                        checkbox:true,
-                        field:'no',
-                        width:100,
-                        align:'center'
-                },
-                {
-                        field:'id',
-                        title:'编号',
-                        width:20,
-                        align:'center'
-                },
-                {
-                        field:'companyname',
-                        title:'公司名称',
-                        width:100,
-                        align:'center'
-                },
-                {
-                        field:'companyaddress',
-                        title:'公司地址',
-                        width:100,
-                        align:'center'
-                },
-                {
-                        field:'licensenumber',
-                        title:'执照编码',
-                        width:50,
-                        align:'center'
-                }, {
-                        field:'juridicalperson',
-                        title:'法人名称',
-                        width:50,
-                        align:'center'
-                },
-                {
-                    field:'companyphone',
-                    title:'公司电话',
-                    width:50,
-                    align:'center'
-                },
-                {
-                        field:"opr",
-                        title:'操作',
-                        width:80,
-                        align:'center',
-                        formatter:function (val,row) {
-                                e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
-                                d = '<a  id="add" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
-                                return e+d;
-                        }
-                }
-        ]]
+    columns:[[
+        {
+            checkbox:true,
+            field:'no',
+            width:100,
+            align:'center'
+        },
+        {
+            field:'id',
+            title:'编号',
+            width:20,
+            align:'center'
+        },
+        {
+            field:'manufacturername',
+            title:'厂家名称',
+            width:100,
+            align:'center'
+        },
+        {
+            field:'manufactureraddress',
+            title:'厂家地址',
+            width:100,
+            align:'center'
+        },
+        {
+            field:'licensenumber',
+            title:'执照编码',
+            width:50,
+            align:'center'
+        },
+        {
+            field:'qualificertificatenumber',
+            title:'资质编码',
+            width:50,
+            align:'center'
+        },{
+            field:'juridicalperson',
+            title:'法人名称',
+            width:50,
+            align:'center'
+        },
+        {
+            field:'manufacturerphone',
+            title:'厂家电话',
+            width:50,
+            align:'center'
+        },
+        {
+            field:"opr",
+            title:'操作',
+            width:80,
+            align:'center',
+            formatter:function (val,row) {
+                e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
+                d = '<a  id="add" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
+                //onclick="obj.jump(\'' + row.id + '\', \'' + row.manufacturername + '\')
+                c = '<a  id="jump" onclick="obj.jump(\'' + row.id + '\', \'' + row.manufacturername + '\')" class="operA02">品牌列表</a> ';
+                return e+d+c;
+
+            }
+        }
+    ]]
 })
 // 弹出框加载
 $("#addBox").dialog({
-        /**
-         *
-         * 产权单位需要修改
-         *
-         */
-        title:"新增产权单位",
+        title:"新增生产厂家",
         width:500,
-        /**
-         *
-         * height高度需要修改
-         *
-         */
         height:300,
         closed: true,
         modal:true,
@@ -681,18 +518,7 @@ $("#addBox").dialog({
 })
 // 弹出框加载
 $("#editBox").dialog({
-    /**
-     *
-     * 产权单位需要修改
-     *
-     */
-    title:"编辑产权单位",
     width:500,
-    /**
-     *
-     * height高度需要修改
-     *
-     */
     height:300,
     closed: true,
     modal:true,

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电梯信息操作</title>
+    <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+
+    <!--左侧树-->
+    <div data-options="region:'center',split:true">
+        <!--表格查询-->
+        <div class="tableFind">
+            <p>
+                <label>电梯编码;</label><input type="text" id="find_devid"/>
+                <!-- 都是下拉列表 -->
+                <label>生产厂家;</label><input type="text" id="manufacturercompany01"  style="width:30px"/>
+                <label>产权单位;</label><input type="text" id="propertycompany01"/>
+                <label>维保单位;</label><input type="text" id="maintenanceunit01"/>
+                <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut" data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
+            </p>
+        </div>
+        <div class="tableCon">
+            <table id="table" class="tableStyle"></table>
+            <div id="tabelBut">
+                <div>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit">修改</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onclick="obj.del()">删除</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<span id="combox"></span>
+<!--//新增弹出框-->
+<div id="addBox" style="display: none">
+    <form id="addForm" method="post">
+        <div class="formDiv"><label>电梯编码:</label><input type="text" id="devid" class="easyui-validatebox" name="buddingname" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>电梯地址:</label><input type="text" id="address" class="easyui-validatebox" name="address" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>电梯品牌:</label><input type="text" id="brand" class="easyui-validatebox" name="address" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>电梯型号:</label><input type="text" id="model" class="easyui-validatebox" name="buddingname"  data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>产权单位:</label><input type="text" id="propertycompany02"  data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>维保单位:</label><input type="text" id="maintenanceunit02"data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>生产厂家:</label><input type="text" id="manufacturercompany02"  data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>安装楼宇:</label><input type="text" id="budding01"  data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>电梯MAC:</label><input type="text" id="devmac" class="easyui-validatebox" name="buddingname" data-options="required:true"><span class="formSpan">*</span></div>
+
+        <div class="formDiv"><label>控制系统:</label><input type="text" id="controllersystem" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>载重:</label><input type="text" id="carryingcapacity" class="easyui-validatebox" name="buddingname" ></div>
+        <div class="formDiv"><label>安装日期:</label><input type="text" id="installdate" class="easyui-datebox"style="width: 16%;height:26px;"></div>
+        <div class="formDiv"><label>设备型号:</label><input type="text" id="unittype" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>最大速度:</label><input type="text" id="topspeed" class="easyui-validatebox" name="buddingname" ></div>
+        <div class="formDiv"><label>电梯尺码:</label><input type="text" id="size" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>控制方式:</label>
+            <select class="easyui-combobox" id="controllermode" panelHeight="auto" style="width:100px">
+                <option value="1">集选</option>
+                <option value="7">微机</option>
+                <option value="30">群控</option>
+                <option value="365">信号</option>
+                <option value="365">按钮</option>
+            </select>
+        </div>
+        <div class="formDiv"><label>开门方式:</label>
+            <select class="easyui-combobox" id="openway" panelHeight="auto" style="width:100px">
+                <option value="1">中分式</option>
+                <option value="7">上下开式</option>
+            </select>
+        </div>
+        <div class="formDiv"><label>生产编号:</label><input type="text" id="productionnumber" class="easyui-validatebox" name="buddingname" ></div>
+        <div class="formDiv"><label>安检局编号:</label><input type="text" id="safenumber" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>制造日期:</label><input type="text" id="manufacturingdate"  class="easyui-datebox" style="width: 16%;height:26px;"></div>
+        <div class="formDiv"><label>安装公司:</label><input type="text" id="installcompany" class="easyui-validatebox" name="address" ></div>
+
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.add()" >提交</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" >重置</a> </div>
+    </form>
+</div>
+<!--//编辑弹出框-->
+<div id="editBox" style="display: none">
+    <form id="editForm" method="post">
+        <div class="formDiv"><label>编号:</label><input type="text" id="edit_id" class="easyui-validatebox" name="buddingname" disabled="disabled" ><span class="formSpan"></span></div>
+        <div class="formDiv"><label>电梯编码:</label><input type="text" id="edit_devid" class="easyui-validatebox" name="buddingname" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>电梯地址:</label><input type="text" id="edit_address" class="easyui-validatebox" name="address" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>电梯品牌:</label><input type="text" id="edit_brand" class="easyui-validatebox" name="address" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>电梯型号:</label><input type="text" id="edit_model" class="easyui-validatebox" name="buddingname"  data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>产权单位:</label><input type="text" id="edit_propertycompany02" class="easyui-validatebox" name="buddingname" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>维保单位:</label><input type="text" id="edit_maintenanceunit02" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>生产厂家:</label><input type="text" id="edit_manufacturercompany02" class="easyui-validatebox" name="buddingname" ></div>
+        <div class="formDiv"><label>安装楼宇:</label><input type="text" id="edit_budding01" class="easyui-validatebox" name="address"></div>
+        <div class="formDiv"><label>电梯MAC:</label><input type="text" id="edit_devmac" class="easyui-validatebox" name="buddingname" ></div>
+
+        <div class="formDiv"><label>控制系统:</label><input type="text" id="edit_controllersystem" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>载重:</label><input type="text" id="edit_carryingcapacity" class="easyui-validatebox" name="buddingname" ></div>
+        <div class="formDiv"><label>安装日期:</label><input type="text" id="edit_installdate" class="easyui-datebox"style="width: 16%;height:26px;"></div>
+        <div class="formDiv"><label>设备型号:</label><input type="text" id="edit_unittype" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>最大速度:</label><input type="text" id="edit_topspeed" class="easyui-validatebox" name="buddingname" ></div>
+        <div class="formDiv"><label>电梯尺码:</label><input type="text" id="edit_size" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>控制方式:</label>
+            <select class="easyui-combobox" id="edit_controllermode" panelHeight="auto" style="width:100px">
+                <option value="1">集选</option>
+                <option value="7">微机</option>
+                <option value="30">群控</option>
+                <option value="365">信号</option>
+                <option value="365">按钮</option>
+            </select>
+        </div>
+        <div class="formDiv"><label>开门方式:</label>
+            <select class="easyui-combobox" id="edit_openway" panelHeight="auto" style="width:100px">
+                <option value="1">中分式</option>
+                <option value="7">上下开式</option>
+            </select>
+        </div>
+        <div class="formDiv"><label>生产编号:</label><input type="text" id="edit_productionnumber" class="easyui-validatebox" name="buddingname" ></div>
+        <div class="formDiv"><label>安检局编号:</label><input type="text" id="edit_safenumber" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>制造日期:</label><input type="text" id="edit_manufacturingdate"  class="easyui-datebox" style="width: 16%;height:26px;"></div>
+        <div class="formDiv"><label>安装公司:</label><input type="text" id="edit_installcompany" class="easyui-validatebox" name="address" ></div>
+
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.update()" >提交</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" >重置</a> </div>
+    </form>
+</div>
+<script src="js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<!-- 引入配置url的文件 -->
+<script src="js/config.js"></script>
+<!--
+     不同的html引入的js不同
+-->
+<script src="js/elevator.js"></script>
+
+</body>
+</html>
