@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>楼宇操作</title>
+    <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+</head>
+<body onload="initCities('直辖市','北京')" >
+<!-- 引入城市下拉列表 -->
+<script src="js/cities.js"></script>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+
+    <!--左侧树-->
+    <div data-options="region:'center',split:true">
+        <!--表格查询-->
+        <div class="tableFind">
+            <p>
+                <label>楼宇名称;</label><input type="text" id="find_buddingname"/>
+                <label>楼宇地址;</label><input type="text" id="find_address"/>
+                <label>产权单位:</label><input type="text" id="part02" />
+               <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut" data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
+
+            </p>
+        </div>
+        <div class="tableCon">
+            <table id="table" class="tableStyle"></table>
+            <div id="tabelBut">
+                <div>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add" onclick="obj.addBox()">新增</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-edit">修改</a>
+                    <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-remove" onclick="obj.del()">删除</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<span id="combox"></span>
+<!--//新增弹出框-->
+<div id="addBox" style="display: none">
+    <form id="addForm" method="post">
+       <div class="formDiv"><label>楼宇名称:</label><input type="text" id="buddingname" class="easyui-validatebox" name="buddingname" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>楼宇地址:</label><input type="text" id="address" class="easyui-validatebox" name="address" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>产权公司:</label><input type="text" id="part01" /></div>
+        <div class="formDiv">
+            <label>区域:</label>
+                <select id="province" name="province" onChange = "select()" class="form-control"></select>
+             <label></label>
+                <select id="city" name="city" class="form-control"></select>
+        </div>
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.add()" >提交</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" >重置</a> </div>
+    </form>
+</div>
+<!--//编辑弹出框-->
+<div id="editBox" style="display: none">
+    <form id="editForm" method="post">
+        <div class="formDiv"><label>编号:</label><input type="text" id="edit_id" class="easyui-validatebox" name="buddingname" disabled="disabled" ><span class="formSpan"></span></div>
+        <div class="formDiv"><label>楼宇名称:</label><input type="text" id="edit_buddingname" class="easyui-validatebox" name="buddingname" ><span class="formSpan"></span></div>
+        <div class="formDiv"><label>楼宇地址:</label><input type="text" id="edit_address" class="easyui-validatebox" name="address" data-options="required:true"><span class="formSpan"></span></div>
+        <div class="formDiv"><label>产权公司:</label><input type="text" id="edit_part01" /></div>
+        <!--<div class="formDiv">
+            <label>区域:</label>
+            <select id="edit_province" name="province" onChange = "select()" class="form-control"></select>
+            <label></label>
+            <select id="edit_city" name="city" class="form-control"></select>
+        </div>-->
+
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.update()" >提交</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" >重置</a> </div>
+    </form>
+</div>
+<script src="js/jquery-easyui-1.5.3/jquery.min.js"></script>
+<script src="js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+<script src="js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<!-- 引入配置url的文件 -->
+<script src="js/config.js"></script>
+
+<script src="js/budding.js"></script>
+
+
+</body>
+</html>
