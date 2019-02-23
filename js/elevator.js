@@ -302,11 +302,10 @@ obj={
                         $("#edit_unittype").val(data.data.unittype);
                         $("#edit_topspeed").val(data.data.topspeed);
                         $("#edit_size").val(data.data.size);
-                        $('#edit_controllermode').combobox('setValue',data.data.controllermode);
-                        $('#edit_openway').combobox('setValue',data.data.openway);
+                        $('#edit_controllermode').combobox('setText',data.data.controllermode);
+                        $('#edit_openway').combobox('setText',data.data.openway);
                         $("#edit_productionnumber").val(data.data.productionnumber);
                         $("#edit_safenumber").val(data.data.safenumber);
-                        // $("#manufacturingdate").datebox('setValue','');
                         $("#edit_installcompany").val(data.data.installcompany);
                     }
                     else{
@@ -376,11 +375,11 @@ obj={
                 if (size !== ""){
                     data["size"] = size
                 }
-                var controllermode = $('#controllermode').combobox('getValue');
+                var controllermode = $('#controllermode').combobox('getText');
                 if (controllermode !== ""){
                     data["controllermode"] = controllermode
                 }
-                var openway = $('#openway').combobox('getValue');
+                var openway = $('#openway').combobox('getText');
                 if (openway !== ""){
                     data["openway"] = openway
                 }

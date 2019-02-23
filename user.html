@@ -2,27 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户列表</title>
-
+    <title>用户管理操作</title>
     <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
     <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/icon.css"/>
     <link type="text/css" rel="stylesheet" href="css/main.css">
-
 </head>
-<body >
+<body>
 <div class="easyui-layout" data-options="fit:true" id="useBox">
     <!--左侧树-->
-    <!--<div data-options="region:'west',split:true,title:'部门管理'", style="width: 200px">
-        <ul id="tree"></ul>
-
-    </div>-->
     <div data-options="region:'center',split:true">
         <!--表格查询-->
         <div class="tableFind">
-            <p><label>用户名;</label><input type="text" id="user"/>
-                <label>部门;</label><input type="text" id="part" /><a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut" data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
+            <p>
+                <label>用户名称;</label><input type="text" id="find_username"/>
+                <label>所属角色;</label><input type="text" id="rolename01"/>
+               <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut" data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a>
+            </p>
         </div>
-        <!--表格列表-->
         <div class="tableCon">
             <table id="table" class="tableStyle"></table>
             <div id="tabelBut">
@@ -33,32 +29,43 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
-
+<span id="combox"></span>
 <!--//新增弹出框-->
-<div id="addBox" >
+<div id="addBox" style="display: none">
     <form id="addForm" method="post">
-        <div class="formDiv"><label>编号:</label><input type="text" name="id" id="no" class="easyui-validatebox" name="name"  readonly="readonly"><span class="formSpan">*</span></div>
-       <div class="formDiv"><label>用户名称:</label><input type="text" name="name" id="name" class="easyui-validatebox" name="name" data-options="required:true"><span class="formSpan">*</span></div>
-        <div class="formDiv"><label>密码:</label><input type="password" name="pass" id="pass" class="easyui-validatebox" name="pass" data-options="required:true"><span class="formSpan">*</span></div>
-        <div class="formDiv"><label>入职时间:</label><input type="text"  name="time" id="time" class="easyui-datebox" name="time" style="width: 70%;height: 26px"></div>
-        <div class="formDiv"><label>所属部门:</label><input type="text" name="part" id="part01" /></div>
-        <div class="formDiv"><label>所属角色:</label><input  id="role"  name="title"></div>
+        <div class="formDiv"><label>用户名称:</label><input type="text" id="username" class="easyui-validatebox" name="buddingname" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>初始密码:</label><input type="text" id="password" class="easyui-validatebox" name="address" data-options="required:true"><span class="formSpan">*</span></div>
+        <div class="formDiv"><label>联系方式:</label><input type="text" id="phone" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>联系邮箱:</label><input type="text" id="email" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>所属角色;</label><input type="text" id="rolename02"/></div>
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.add()" >提交</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" >重置</a> </div>
+    </form>
+</div>
+<!--//编辑弹出框-->
+<div id="editBox" style="display: none">
+    <form id="editForm" method="post">
+        <div class="formDiv"><label>编号:</label><input type="text" id="edit_id" class="easyui-validatebox" name="buddingname" disabled="disabled" ><span class="formSpan"></span></div>
+        <div class="formDiv"><label>用户名称:</label><input type="text" id="edit_username" class="easyui-validatebox" name="buddingname" disabled="disabled"></div>
+        <!--<div class="formDiv"><label>初始密码:</label><input type="text" id="edit_password" class="easyui-validatebox" name="address" data-options="required:true"><span class="formSpan">*</span></div>-->
+        <div class="formDiv"><label>联系方式:</label><input type="text" id="edit_phone" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>联系邮箱:</label><input type="text" id="edit_email" class="easyui-validatebox" name="address" ></div>
+        <div class="formDiv"><label>所属角色;</label><input type="text" id="edit_rolename02"/></div>
 
-
-        <div class="forSubmint"> <a href="#" class="easyui-linkbutton"  iconCls="icon-ok"  onclick="obj.sum()">提交</a>
-            <a href="#" class="easyui-linkbutton" id="res" iconCls="icon-redo" onclick="obj.res()" >重置</a>
-            <a href="#" class="easyui-linkbutton" id="can" iconCls="icon-cancel" onclick="obj.can()" >取消</a>
-        </div>
-
+        <div class="forSubmint"><a href="#" class="easyui-linkbutton"  iconCls="icon-ok" onclick="obj.update()" >提交</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" >重置</a> </div>
     </form>
 </div>
 <script src="js/jquery-easyui-1.5.3/jquery.min.js"></script>
 <script src="js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
 <script src="js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<!-- 引入配置url的文件 -->
+<script src="js/sso_config.js"></script>
+<!--
+     不同的html引入的js不同
+-->
 <script src="js/user.js"></script>
-
 
 </body>
 </html>

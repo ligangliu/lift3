@@ -54,6 +54,7 @@ obj={
                         $("#edit_id").val(id);
                         $("#edit_brandname").val(data.data.companyname);
                         $('#edit_brandmainboard').combobox('setValue',data.data.brandmainboard);
+                        $('#edit_manufacturername').val(manufacturername);
                     }
                     else{
                         }

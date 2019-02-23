@@ -13,29 +13,28 @@
 <div class="easyui-layout" data-options="fit:true" id="useBox">
 
     <!--左侧树-->
-    <div data-options="region:'east',split:true,title:'角色信息'", style="width: 400px">
+    <div data-options="region:'east',split:true,title:'角色信息'", style="width: 400px; display: none" >
         <fieldset id="roleMes">
             <legend>基本信息</legend>
             <form id="roleForm">
-
-            <p><label>角色编号：</label><input type="text" class="inputDisable" disabled="disabled"></p>
-            <p><label>角色名称：</label><input id="roleName" type="text" class="easyui-validatebox " data-options="required:true" ><span class="formSpan">*</span></p>
-            <p><label class="textarea" id="roleNote">角色描述：</label><textarea></textarea></p>
+                <p><label>角色编号：</label><input type="text" id="id" class="inputDisable" disabled="disabled"></p>
+                <p><label>角色名称：</label><input id="rolename" type="text" class="easyui-validatebox " data-options="required:true" ><span class="formSpan">*</span></p>
+               <label>启用状态：</label>
+                    <select class="easyui-combobox" id="flag" panelHeight="auto" style="width:245px; height: 30px">
+                        <option value="1" >启用</option>
+                        <option value="0" >禁用</option>
+                    </select>
+                <p><label class="textarea">角色描述：</label><textarea id="description"></textarea></p>
             </form>
         </fieldset>
-        <fieldset>
-            <legend>功能模块</legend>
-            <ul id="tree" class="roleTree"></ul>
-        </fieldset>
-        <div class="forSubmint"> <a href="#" class="easyui-linkbutton"  iconCls="icon-save" >保存</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" >重置</a> </div>
-
+        <div class="forSubmint"> <a href="#" onclick="obj.add()" class="easyui-linkbutton"  iconCls="icon-save" >保存</a><a href="#" class="easyui-linkbutton"  iconCls="icon-redo" >重置</a> </div>
     </div>
     <div data-options="region:'center',split:true">
         <!--表格查询-->
-        <div class="tableFind">
+        <!--<div class="tableFind">
             <p><label>角色名称;</label><input type="text" id="part" />
                 <a id="btn" href="javascript:" class="easyui-linkbutton tableFindBut" data-options="iconCls:'icon-search'" onclick="obj.find()">查询</a></p>
-        </div>
+        </div>-->
         <!--表格列表-->
         <div class="tableCon">
             <table id="table" class="tableStyle"></table>
@@ -54,6 +53,7 @@
 <script src="js/jquery-easyui-1.5.3/jquery.min.js"></script>
 <script src="js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
 <script src="js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+<script src="js/sso_config.js"></script>
 <script src="js/role.js"></script>
 
 
