@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>news</title>
+
+    <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/default/easyui.css"/>
+    <link type="text/css" rel="stylesheet" href="js/jquery-easyui-1.5.3/themes/icon.css"/>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+
+    <script src="js/jquery-easyui-1.5.3/jquery.easyui.min.js"></script>
+    <script src="js/jquery-easyui-1.5.3/locale/easyui-lang-zh_CN.js"></script>
+    <script src="js/echarts/echarts-all.js"></script>
+    <script src="js/staAnalysis1.js"></script>
+
+</head>
+<body>
+<div class="easyui-layout" data-options="fit:true" id="useBox">
+
+
+    <div data-options="region:'center',split:true">
+        <div class="sportAll">
+
+            <div class="staAn02"  >
+                <h5 class="staAn_h5">电梯监控界面</h5>
+                <div id="light1">
+                    <img id="img1"  width="213" height="213">
+                    <img id="img2"  width="90" height="50" style='position:relative;left:75px;top:-140px'>
+                    <img id="img3"  width="90" height="50" style='position:relative;left:-19px;top:-50px'>
+                </div>
+            </div>
+
+            <div class="staAn02" >
+                <h5 class="staAn_h5">电梯实时状态</h5>
+                <table class="TailTable01" id="dataTables1">
+                    <tr>
+                        <td class="TailLabel">刷新次数</td>
+                        <td>电梯状态</td>
+                        <td>所处楼层</td>
+                        <td>时/分/秒</td>
+                        <td>年/月/日</td>
+                        <td>电梯长度</td>
+                    </tr>
+                    <br>
+                    <tbody id="tbMain1"></tbody>
+                </table>
+                <table class="TailTable01" id="dataTables2">
+                    <tr>
+                        <td class="TailLabel">标识码</td>
+                        <td>Mac地址</td>
+                        <td>品牌</td>
+                        <td>型号</td>
+                        <td>生产产家</td>
+                        <td>地区</td>
+                    </tr>
+                    <br>
+                    <tbody id="tbMain2"></tbody>
+                </table>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <script src="js/jquery-easyui-1.5.3/jquery.min.js"></script>
+    <script src="js/config.js"></script>
+    <script type="text/javascript">
+        var LocString = String(window.document.location.href);
+        function GetQueryString(name) {
+            var rs = new RegExp("(^|)" + name + "=([^&]*)(&|$)", "gi").exec(LocString), tmp;
+            if (tmp = rs) {
+                return decodeURI(tmp[2]);
+            }
+            // parameter cannot be found
+            return "";
+        }
+        var id = GetQueryString("id");
+    </script>
+    <script>
+        $(function(){//点击按钮，获取id值，查看电梯状态
+            var timesRun = 0;
+            var url = manage_elevator_monitor_url + "/" + id
+            setInterval(function() {
+
+                $.ajax({
+                    //url:"http://112.74.63.8:8081/api/v1/elevator/getMonitor/21",
+                    url:url,
+                    type:"GET",
+                    dataType:'json',
+                    //contentType:"application/json;charset=utf-8",
+                    success:function(data){
+                        if(data.status == "1000"){
+                            var list = data.data.monitorInfo;
+                            var list1 = data.data.elevator;
+                            var length = list.length;//长度
+                            var floor = list.floor;//楼层
+                            var doorStatus = list.doorStatus;//0开门 1开门
+                            var direction = list.direction;//0停止 1下行 2上行
+                            var status = list.status;//0故障 1正常 3检修
+                            var time = list.time;//时分秒
+                            var data = list.data;//年月日
+
+                            var devid = list1.devid;//标识码
+                            var devmac = list1.devmac;//mac地址
+                            var brand = list1.brand;//电梯品牌
+                            var model = list1.model;//电梯型号
+                            var manufacturercompany = list1.manufacturercompany;//生产厂家
+                            var region = list1.region;//地区
+
+                            timesRun += 1;
+                            if (status==1){
+                                status="正常";
+                            }
+                            else{
+                                status="异常";
+                            }
+
+                            if(doorStatus==1){//开门
+                                var img=document.getElementById("img1");
+                                img.src='img/open.png';
+                            }
+                            else{//关门
+                                var img=document.getElementById("img1");
+                                img.src='img/close.png';
+
+                            }
+
+                            if(direction==2){//上行
+                                var img=document.getElementById("img2");
+                                img.src='img/uping.png';
+
+                                var img=document.getElementById("img3");
+                                img.src='img/downend.png';
+                            }
+                            else if(direction==1){//下行
+                                var img=document.getElementById("img2");
+                                img.src='img/upend.png';
+
+                                var img=document.getElementById("img3");
+                                img.src='img/downing.png';
+                            }
+                            else{//停止
+                                var img=document.getElementById("img2");
+                                img.src='img/upend.png';
+
+                                var img=document.getElementById("img3");
+                                img.src='img/downend.png';
+                            }
+
+                        }
+                        $("#dataTables1 tr:not(:first)").empty("");
+                        var font = "<tr>" +
+                            "<td>" + timesRun + "</td>" +
+                            "<td>" + status + "</td>" +
+                            "<td>" + floor + "</td>" +
+                            "<td>" + data + "</td>" +
+                            "<td>" + time + "</td>" +
+                            "<td>" + length + "</td>" +
+                            "</tr>";
+                        $("#tbMain1").append(font);
+
+
+                        $("#dataTables2 tr:not(:first)").empty("");
+                        var font1 = "<tr>" +
+                            "<td>" + devid + "</td>" +
+                            "<td>" + devmac + "</td>" +
+                            "<td>" + brand + "</td>" +
+                            "<td>" + model + "</td>" +
+                            "<td>" + manufacturercompany + "</td>" +
+                            "<td>" + region + "</td>" +
+                            "</tr>";
+                        $("#tbMain2").append(font1);
+                    },
+                    error: function(content) {
+                        alert("失败");
+                    }
+                });
+            },1000);
+        });
+    </script>
+</body>
+</html>

@@ -238,12 +238,17 @@ obj={
                         formatter:function (val,row) {
                             e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
                             d = '<a  id="add" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
-                            c = '<a  id="look"  href="#">监控</a> ';
+                            c = '<a  id="look"  href="#" onclick="obj.jump(\'' + row.id + '\')">监控</a> ';
                             return e+d+c;
                         }
                     }
                 ]]
             })
+        },
+        jump:function (id) {
+            // alert(id);
+            // alert(manufacturername);
+            window.location.href = "monitor.html?id="+id
         },
         // 添加
        addBox:function () {
@@ -697,7 +702,7 @@ $("#table").datagrid({
             formatter:function (val,row) {
                 e = '<a  id="add" data-id="98" class=" operA"  onclick="obj.edit(\'' + row.id + '\')">编辑</a> ';
                 d = '<a  id="add" data-id="98" class=" operA01"  onclick="obj.delOne(\'' + row.id + '\')">删除</a> ';
-                c = '<a  id="look"  href="#">监控</a> ';
+                c = '<a  id="look"  href="#" onclick="obj.jump(\'' + row.id + '\')">监控</a> ';
                 return e+d+c;
             }
         }

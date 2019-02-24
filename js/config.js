@@ -1,5 +1,12 @@
 var manage_host = "http://127.0.0.1";
 var manage_port = "8082";
+var token = localStorage.getItem("token")
+
+var collect_host = "http://112.74.63.8";
+var collect_port = "8082"
+
+//监控刷新间隔
+var timeout = 10000
 
 /*** 楼宇调用url ***/
 //查询楼宇
@@ -85,6 +92,8 @@ var manage_elevator_get_url = manage_host + ":" + manage_port + "/api/v1/elevato
 var manage_elevator_update_url = manage_host + ":" + manage_port + "/api/v1/elevator/updateElevator"
 //获取所有的电梯信息名称信息
 var manage_elevator_getName_url = manage_host + ":" + manage_port + "/api/v1/elevator/getElevatorNames"
+//电梯监控调用url
+var manage_elevator_monitor_url = manage_host + ":" + manage_port + "/api/v1/elevator/getMonitor"
 
 /*** 生产厂家下属品牌url ***/
 //查询所有的电梯信息
@@ -99,3 +108,7 @@ var manage_manusubbra_get_url = manage_host + ":" + manage_port + "/api/v1/manuS
 var manage_manusubbra_update_url = manage_host + ":" + manage_port + "/api/v1/manuSubBra/updateManuSubBra"
 
 
+
+/***  其他url ****/
+
+var collect_collectInfo_url = collect_host + ":" + collect_port + "/api/v1/collect/collectInfo"

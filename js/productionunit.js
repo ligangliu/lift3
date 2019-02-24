@@ -215,7 +215,7 @@ obj={
         jump:function (id,manufacturername) {
             // alert(id);
             // alert(manufacturername);
-            window.location.href = "/lift/manusubbra.html?id="+id+"&manufacturername="+manufacturername
+            window.location.href = "manusubbra.html?id="+id+"&manufacturername="+manufacturername
         },
         add:function () {
                 var data = {}

@@ -161,9 +161,8 @@ obj={
                         $("#edit_email").val(data.data.email);
                         $("#edit_rolename02").combotree('setValue',data.data.roleid)
                         $("#edit_rolename02").combotree('setText',data.data.rolename)
+                    } else{
                     }
-                    else{
-                        }
                 }
             })
         },
