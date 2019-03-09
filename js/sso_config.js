@@ -1,5 +1,5 @@
-var sso_host = "http://127.0.0.1";
-var sso_port = "8081";
+var sso_host = "http://112.74.63.8";
+var sso_port = "8080";
 var token = localStorage.getItem("token")
 /*** 用户调用url ***/
 //查询所有用户

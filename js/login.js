@@ -48,7 +48,10 @@ $("#btn").click(function () {
                                         window.location.href = "main.html";
                                 }
                                 else{
-                                        alert(data.msg)
+                                        $.messager.show({
+                                                title:'警示信息',
+                                                msg:data.msg
+                                        })
                                         return;
                                 }
                         }

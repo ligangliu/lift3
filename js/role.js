@@ -29,7 +29,7 @@ obj={
                         data["rolename"] = rolename
                 }
                 var flag = $('#flag').combobox('getValue');
-                if (flag !== "" && (flag===1 || flag === 0)  ){
+                if (flag !== "" && (flag === "1" || flag === "0")  ){
                         data["flag"] = flag
                 }else {
                         data["flag"] = 1

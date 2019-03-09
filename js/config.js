@@ -1,5 +1,5 @@
-var manage_host = "http://127.0.0.1";
-var manage_port = "8082";
+var manage_host = "http://112.74.63.8";
+var manage_port = "8081";
 var token = localStorage.getItem("token")
 
 var collect_host = "http://112.74.63.8";
